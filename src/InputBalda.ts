@@ -1,17 +1,19 @@
 import { Input } from "./Input";
 
 export class InputBalda extends Input {
-    override get html(): string  {
+    override get html(): string {
         return "<input id='inputBalda'></input>"
     }
 
     get sym(): string {
-        // TODO
-        //  возвращает символ из поля ввода        
-        return ""
+        const inputElement = document.getElementById('inputBalda') as HTMLInputElement
+        return inputElement ? inputElement.value.charAt(0) || '' : ''
     }
+
     move(): void {
-        // TODO
-        //  очищает поле ввода
+        const inputElement = document.getElementById('inputBalda') as HTMLInputElement
+        if (inputElement) {
+            inputElement.value = ''
+        }
     }
 }
