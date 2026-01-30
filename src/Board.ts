@@ -3,47 +3,46 @@ export type BoardParam = {
     col: number
 }
 
-// Абстрактный класс доски
 export abstract class Board {
     cells: string[]
-
-    static row: number
-    static col: number
+    static row: number = 0
+    static col: number = 0
 
     constructor(
         str: string[] | string,
         row?: number,
         col?: number,
     ) {
-        // TODO
-        // При наличии row или col 
-        //  инициализировать соответсвующие поля
-        // Инициализировать массив cells
-        this.cells = []
-    }
+        // Инициализация статических полей при их наличии
+        if (row !== undefined && col !== undefined) {
+            (this.constructor as any).row = row
+            ;(this.constructor as any).col = col
+        }
 
+        // Инициализация массива cells
+        if (Array.isArray(str)) {
+            this.cells = [...str]
+        } else {
+            this.cells = str.split('')
+        }
+    }
 
     abstract clone(): Board
 
     isFill(): boolean {
-        // TODO
-        // Возвращет true если на доске нет пустых клеток
-        // Реомендуется реализация без циклов,
-        //  с использованием функций массивов
-        return true
+        return !this.cells.includes('_') && !this.cells.includes(' ')
     }
 
     move(index: number, sym: string): boolean {
-        // TODO
-        // Если ячейка this.cell[index] занята - возвращает false
-        // Записывает в ячейку cell и возвращает true
+        if (index < 0 || index >= this.cells.length || 
+            (this.cells[index] !== '_' && this.cells[index] !== ' ')) {
+            return false
+        }
+        this.cells[index] = sym
         return true
     }
 
     status(): string {
-        // TODO
-        // Если доска заполнена возвращает "Игра закончена"
-        //   если игра не закончена, строку "Идет игра".
-        return "Идет игра"
+        return this.isFill() ? "Игра закончена" : "Идет игра"
     }
 }
