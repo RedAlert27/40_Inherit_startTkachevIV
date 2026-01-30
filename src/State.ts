@@ -1,6 +1,5 @@
 import { Board } from "./Board"
 
-
 export class State {
     board: Board
     sym: string
@@ -9,13 +8,11 @@ export class State {
         board: Board,
         sym: string
     ) {
-        this.board = board
+        this.board = board.clone()
         this.sym = sym
     }
 
-    clone(): State{
-        // TODO
-        // Функция должна вернуть копию объекта
-        return this
+    clone(): State {
+        return new State(this.board.clone(), this.sym)
     }
 }
